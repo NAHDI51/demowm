@@ -1,0 +1,102 @@
+# All of these are used for practice purposes 
+## Make File:
+## Basically, it checks whether a file exists, or whether
+## a file to be made. Then it uses topological sort to 
+## Schedule the tasks.
+
+# Syntax
+# Target/File: prerequisites
+# Command
+# Command
+# Command
+
+# Target/File: What we are trying to make
+# Prerequisites: List of files that are to be used.
+
+# Because there are no dependencies, it doesn't get recompiled
+# Everytimes I edit the files. It does so by checking the
+# timestamps.
+
+# blah:
+# 	cc blah.c -o blah
+
+# all: hello some_file
+
+# hello:
+# 	echo "compiling..."
+# 	echo "compiled."
+
+# some_file: other_file
+# 	echo "This will always run, and runs second"
+# 	touch some_file
+
+# other_file:
+# 	echo "This will always run, and runs first"
+
+# files := file1 file2
+# some_file: $(files)
+# 	echo "Look at this variable: " $(files)
+# 	touch some_file
+
+# file1:
+# 	touch file1
+# file2:
+# 	touch file2
+
+# # Executes only if called by the command: make clean
+# clean:
+# 	rm -f file1 file2 some_file
+
+# When there are multiple targets for a rule, 
+# the commands will be run for each target. 
+# $@ is an automatic variable that contains 
+# the target name.
+
+# all: f1.o f2.o
+
+# f1.o f2.o:
+# 	echo $@
+# # Equivalent to:
+# # f1.o:
+# #	 echo f1.o
+# # f2.o:
+# #	 echo f2.o
+
+# files := file1 file2
+# some_file: $(files)
+# 	echo "Look at this variable: " $(files)
+# 	touch some_file
+
+# file1:
+# 	touch file1
+# file2:
+# 	touch file2
+
+# clean:
+# 	rm -f file1 file2 some_file
+
+# obj_files = foo.result bar.o lose.o
+# src_files = foo.raw bar.c lose.c
+
+# all: $(obj_files)
+# # Note: PHONY is important here. Without it, implicit rules will try to build the executable "all", since the prereqs are ".o" files.
+# .PHONY: all 
+
+# # Ex 1: .o files depend on .c files. Though we don't actually make the .o file.
+# $(filter %.o,$(obj_files)): %.o: %.c
+# 	echo "target: $@ prereq: $^"
+
+# # Ex 2: .result files depend on .raw files. Though we don't actually make the .result file.
+# $(filter %.result,$(obj_files)): %.result: %.raw
+# 	echo "target: $@ prereq: $^" 
+
+# %.c %.raw:
+# 	touch $@
+
+# clean:
+# 	rm -f $(src_files)
+
+# Define a pattern rule that has no pattern in the prerequisites.
+# This just creates empty .c files when needed.
+%.c:
+   touch $@
