@@ -50,8 +50,8 @@ static Window createWindow(
     XftColor *borderColor
     ) {
 
-    unsigned long long eventMask = Button1MotionMask | ButtonPressMask |
-                                   ButtonReleaseMask | KeyPressMask;
+    unsigned long long eventMask = Button1MotionMask | Button3MotionMask | ButtonPressMask |
+                                   ButtonReleaseMask | Button1Mask | Button3Mask | KeyPressMask;
     XSetWindowAttributes xattr = {
         .background_pixel = bgColor->pixel,
         // .border_pixel     = borderColor->pixel,
@@ -127,7 +127,7 @@ static void createColor(XftColor* color, char* colorName) {
 
     color->pixel |= 0xff << 24;
 
-    printf("Successfully created color: %s\n", colorName);
+    // printf("Successfully created color: %s\n", colorName);
 
     return;
 }
@@ -315,22 +315,38 @@ void runGraphicContent(GC graphicContent) {
     int prevX = 0, prevY = 0;
     bool pointInit = false;
 
-    printf("reached runGraphicContent\n");
+    // printf("reached runGraphicContent\n");
 
     while(!(XNextEvent(disp, &event))) {
         // printf("Reached inside event loop\n");
 
         switch(event.type) {
-
             case ButtonPress:
-                if(event.xbutton.x == Button1) {
+                // printf("Reached button press\n");
+
+
+                // Color red
+                if(event.xbutton.button == Button1) {
+                    // printf("reached button 1\n"); 
+                    XSetForeground(disp, graphicContent, createColorRed()->pixel);
                     XDrawPoint(disp, event.xbutton.window, graphicContent,
                                event.xbutton.x, event.xbutton.y
                     );
                 } 
+                // Color blue
+                else if(event.xbutton.button == Button3) {
+                    XSetForeground(disp, graphicContent, createColorBlue()->pixel);
+                    XDrawPoint(disp, event.xbutton.window, graphicContent,
+                               event.xbutton.x, event.xbutton.y
+                    );
+                }
+
                 break;
+
             
             case MotionNotify:
+                // printf("Reached motion notify\n");
+
                 if(pointInit) {
                     XDrawLine(disp, event.xbutton.window, graphicContent,
                               prevX          , prevY,           /* From */
@@ -349,10 +365,12 @@ void runGraphicContent(GC graphicContent) {
                 break;
             
             case ButtonRelease:
+                // printf("reached button release\n");
                 pointInit = false;
                 break;
             
             case KeyPress:
+                // printf("reached button key press\n");
                 if(XkbKeycodeToKeysym(disp, event.xkey.keycode, 0, 0) == XK_q) {
                     return; 
                 }
