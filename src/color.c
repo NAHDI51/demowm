@@ -32,7 +32,7 @@ static void createColor(
 }
 
 static void initializeColorResources() {
-    for(int i = 0; i < COLORCODECOUNT; i++) {
+    for(int i = 0; i < COLOR_COUNT; i++) {
         // They will be freed from the main header file upon termination.
         colorResources[i] = (XftColor*) malloc(sizeof(XftColor));
         createColor(colorResources[i], colorCodes[i]);
@@ -40,7 +40,7 @@ static void initializeColorResources() {
 }
 
 static void destroyColorResources() {
-    for(int i = 0; i < COLORCODECOUNT; i++) {
+    for(int i = 0; i < COLOR_COUNT; i++) {
         XftColorFree(
             disp,
             mainVisual,
