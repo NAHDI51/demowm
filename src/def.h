@@ -21,4 +21,16 @@ static int screenNum;
 static Window rootWindow;
 static Visual* mainVisual;
 
+// Construction of necessary resources
+void constructDisplay();
+
+/*
+    @brief: Frees the resources
+*/
+void destroyDisplay(
+    Window* win, 
+    GC* gc
+    // Visual* vis
+);
+
 #endif // End of _MAIN_H guard
