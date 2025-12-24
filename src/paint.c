@@ -14,7 +14,7 @@
 #include "window.h"
 #include "color.h"
 
-void run(GC graphicContent) {
+void run(Window mainWindow, GC graphicContent, Toolbar colorbox) {
     XEvent event;
     int prevX = 0, prevY = 0;
     bool pointInit = false;
@@ -73,6 +73,12 @@ void run(GC graphicContent) {
                 pointInit = false;
                 break;
             
+            case Expose:
+                printf("Exposed\n");
+                // Redraw 
+                drawColorboxToolbar(colorbox, graphicContent, mainWindow);
+                break;
+            
             case KeyPress:
                 // printf("reached button key press\n");
                 if(XkbKeycodeToKeysym(disp, event.xkey.keycode, 0, 0) == XK_q) {
@@ -93,8 +99,12 @@ int main() {
     
     // GC graphicContent = takeGraphicContentInput(mainWindow);
     GC graphicContent = openDefaultGraphicContent(mainWindow);
-    run(graphicContent);
-    destroyDisplay(&mainWindow, &graphicContent);
+    Toolbar colorbox = createColorboxToolbar(mainWindow);
+    drawColorboxToolbar(colorbox, graphicContent, mainWindow);
+
+    // Colorbox is usable for now.
+    run(mainWindow, graphicContent, colorbox);
+    destroyDisplay(&mainWindow, &graphicContent, &colorbox);
 
     return 0;
 }
