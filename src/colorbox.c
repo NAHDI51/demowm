@@ -92,6 +92,7 @@ Toolbar createColorboxToolbar(Window win) {
     return bar;
 }
 
+// Needs to be updated for the readability
 void drawColorboxToolbar(
     Toolbar toolbar, 
     GC graphicContent, 
@@ -153,7 +154,7 @@ void drawColorboxToolbar(
         }
 
         // Finally, fill normal colors.
-        
+
         XSetForeground(
             disp, 
             graphicContent, 
