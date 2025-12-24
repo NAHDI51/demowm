@@ -81,9 +81,13 @@ void setFixedWindowSize(
 
 /*
     Toolbars: represented as pixmaps
+
+    I think offset X and Y should be defined here too,
+    because you'll need them in almost all cases.
 */
 typedef struct {
     int width, height;
+    int offsetX, offsetY;
     Pixmap pixmap;
 } Toolbar;
 
