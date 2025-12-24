@@ -32,17 +32,22 @@ void constructDisplay() {
     mainVisual = DefaultVisual(disp, screenNum);
     rootWindow = RootWindow(disp, screenNum);
     constructColorResources();
+    constructColorButtons();
+
     return;
 }
 
 /*
     @brief: Frees the resources
 */
-void destroyDisplay(Window* win, GC* gc) {
+void destroyDisplay(Window* win, GC* gc, Toolbar* colorbox) {
     XUnmapWindow(disp, *win);
     XDestroyWindow(disp, *win);
     XFreeGC(disp, *gc);
+    destroyColorButtons();
     destroyColorResources();
+
+    XFreePixmap(disp, colorbox->pixmap);
     
     //Close connection with X11
     XCloseDisplay(disp);

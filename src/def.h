@@ -12,6 +12,8 @@
 #include <X11/Xatom.h>
 #include <X11/Xft/Xft.h>
 
+#include "window.h"
+
 /*
     Global display attributes
 */
@@ -29,7 +31,8 @@ void constructDisplay();
 */
 void destroyDisplay(
     Window* win, 
-    GC* gc
+    GC* gc,
+    Toolbar* colorbox
     // Visual* vis
 );
 
