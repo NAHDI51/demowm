@@ -10,11 +10,14 @@
 #include "colorbox.h"
 
 #include <stdlib.h>
+#include <stdbool.h>
 #include <err.h>
 
 
-const unsigned long COLOR_SEMIBLACK    = 0x7F7F7F;
-const unsigned long COLOR_SEMISKYBLUE  = 0x87CEEB;
+const unsigned long COLOR_SEMIBLACK         = 0x7F7F7F;
+const unsigned long COLOR_SEMISKYBLUE       = 0x87CEEB;
+const unsigned long COLOR_PRIMARY_OVERLAY   = 0x404040;
+const unsigned long COLOR_SECONDARY_OVERLAY = 0x202020;
 
 ColorButton colorButtons[COLOR_COUNT];
 
@@ -89,7 +92,13 @@ Toolbar createColorboxToolbar(Window win) {
     return bar;
 }
 
-void drawColorboxToolbar(Toolbar toolbar, GC graphicContent, Window win) {
+void drawColorboxToolbar(
+    Toolbar toolbar, 
+    GC graphicContent, 
+    Window win,
+    unsigned long primaryColor,
+    unsigned long secondaryColor 
+) {
 
     // Fill toolbar pixmap with background (white)
     XSetForeground(
@@ -106,10 +115,49 @@ void drawColorboxToolbar(Toolbar toolbar, GC graphicContent, Window win) {
         toolbar.width, toolbar.height);
 
     for(int i = 0; i < COLOR_COUNT; i++) {
+        unsigned long curColor = colorButtons[i].code;
+
+        /*
+            Check for primary and secondary colors.
+        */
+        bool primaryOrSecondary = false;
+
+        if(curColor == primaryColor) {
+            XSetForeground(
+                disp,
+                graphicContent,
+                COLOR_PRIMARY_OVERLAY
+            );
+            primaryOrSecondary |= true;
+        }
+        if(curColor == secondaryColor) {
+            XSetForeground(
+                disp,
+                graphicContent,
+                COLOR_SECONDARY_OVERLAY
+            );
+            primaryOrSecondary |= true;
+        }
+        if(primaryOrSecondary) {
+            XDrawArc(
+                disp,
+                toolbar.pixmap,
+                graphicContent,
+                colorButtons[i].posx - COLORBOX_BORDER/2,
+                colorButtons[i].posy - COLORBOX_BORDER/2,
+                colorButtons[i].width + COLORBOX_BORDER,
+                colorButtons[i].height + COLORBOX_BORDER,
+                0,
+                360*64
+            );
+        }
+
+        // Finally, fill normal colors.
+        
         XSetForeground(
             disp, 
             graphicContent, 
-            colorButtons[i].code
+            curColor
         );
 
         // This creates circular buttons
@@ -157,7 +205,7 @@ void drawColorboxToolbar(Toolbar toolbar, GC graphicContent, Window win) {
         // Much convenient
         toolbar.offsetX, toolbar.offsetY
     );
-    printf("Made drawcolorboxtoolbar.\n");
+    // printf("Made drawcolorboxtoolbar.\n");
 }
 
 int clickedColorButton(

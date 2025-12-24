@@ -22,6 +22,9 @@
 extern const unsigned long COLOR_SEMIBLACK; 
 // 50% opacity sky-blue
 extern const unsigned long COLOR_SEMISKYBLUE;
+// Overlay colors on click
+extern const unsigned long COLOR_PRIMARY_OVERLAY;
+extern const unsigned long COLOR_SECONDARY_OVERLAY;
 
 /*
     @brief: Color box dimensions
@@ -44,7 +47,7 @@ typedef enum {
                         ((COLOR_COUNT * COLORBOX_SIZE) + 
                         ((COLOR_COUNT + 1) * COLORBOX_PAD )) / 2,
     
-    COLORBOX_Y_OFFSET = HEIGHT - ((COLORBOX_SIZE + (2*COLORBOX_PAD)) * 2)
+    COLORBOX_Y_OFFSET = HEIGHT - ((COLORBOX_SIZE + (1*COLORBOX_PAD)) * 2)
 
 } ColorBoxProperties;
 
@@ -93,7 +96,9 @@ Toolbar createColorboxToolbar(Window win);
 void drawColorboxToolbar(
     Toolbar toolbar, 
     GC graphicContent,
-    Window win
+    Window win,
+    unsigned long primaryColor,
+    unsigned long secondaryColor
 );
 
 #endif // __COLORBOX_H
