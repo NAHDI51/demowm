@@ -9,7 +9,8 @@
 #include <X11/Xlib.h>
 #include <X11/X.h>
 
-#include "def.h"    
+#include "def.h"  
+#include "shapes/rectangle.h"  
 
 /*
     Window properties
@@ -86,7 +87,7 @@ void setFixedWindowSize(
     because you'll need them in almost all cases.
 */
 typedef struct {
-    int width, height;
+    Rectangle bar;
     int offsetX, offsetY;
     Pixmap pixmap;
 } Toolbar;
