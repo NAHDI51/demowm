@@ -14,6 +14,7 @@
 #include "window.h"
 #include "color.h"
 #include "colorbox.h"
+#include "shapes/shapes.h"
 
 void run(Window mainWindow, GC graphicContent, Toolbar colorbox) {
     XEvent event;
@@ -41,10 +42,13 @@ void run(Window mainWindow, GC graphicContent, Toolbar colorbox) {
 
                 // If clicked on colorbox, change color, else do nothing.
                 int clickedIndex = clickedColorButton(
-                    event.xbutton.x,
-                    event.xbutton.y,
+                    createPoint(
+                        event.xbutton.x,
+                        event.xbutton.y
+                    ),
                     colorbox
                 );
+                printf("Clicked and received: %d\n", clickedIndex);
 
                 // Outside border implementation: draw
 
