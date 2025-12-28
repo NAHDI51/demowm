@@ -23,6 +23,13 @@ int circleCenterY(Circle c) {
     return c.bounds.p.posY + c.bounds.height / 2;
 }
 
+Point circleCenter(Circle c) {
+    return createPoint(
+        circleCenterX(c),
+        circleCenterY(c)
+    );
+}
+
 /*
     If w != h, it makes ellipse, so will not work.
     Should I make it generalized for ellipse? Maybe later.
@@ -77,4 +84,29 @@ bool pointInsideCircle(Point p, Circle c) {
     int r = circleRadius(c);
 
     return pointDistSq((Point) {cx,cy}, p) <= r*r;
+}
+
+/*
+    =========================
+    Circle setters / mutators
+    =========================
+*/
+
+void setCircleCenter(Circle* c, Point center) {
+    c->bounds.p.posX = center.posX - c->bounds.width / 2;
+    c->bounds.p.posY = center.posY - c->bounds.height / 2;
+}
+
+void setCircleTopLeft(Circle* c, Point p) {
+    c->bounds.p = p;
+}
+
+void setCircleRadius(Circle* c, int radius) {
+    int d = radius * 2;
+    c->bounds.width  = d;
+    c->bounds.height = d;
+}
+
+void setCircleLineWidth(Circle* c, int lineWidth) {
+    c->bounds.lineWidth = lineWidth;
 }

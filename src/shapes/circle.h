@@ -39,6 +39,7 @@ typedef struct {
 } Circle;
 
 // Use these methods to get them, not store them in data.
+Point circleCenter(Circle c);
 int circleCenterX(Circle c);
 int circleCenterY(Circle c);
 int circleRadius(Circle c);
@@ -60,6 +61,27 @@ bool pointInsideCircle (
     Point p,
     Circle c
 );
+
+/*
+    Setter functions: So far everything was of fixed size 
+    and position. But in order for them to be future-proof,
+    I need to make them dynamic.
+
+    =========================
+    Circle setters / mutators
+    =========================
+*/
+
+void setCircleCenter(Circle* c, Point newCenter);
+void setCircleRadius(Circle* c, int newRadius);
+void setCircleLineWidth(Circle* c, int newLineWidth);
+
+/* 
+    Useful when circle is embedded in layouts. This is 
+    because xorg thinks of circle as "bounded within rectangle"
+*/
+void setCircleTopLeft(Circle* c, Point newTopLeft);
+
 
 
 #endif  // __CIRCLE_H
