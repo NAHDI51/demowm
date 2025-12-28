@@ -92,21 +92,21 @@ bool pointInsideCircle(Point p, Circle c) {
     =========================
 */
 
-void setCircleCenter(Circle* c, Point center) {
-    c->bounds.p.posX = center.posX - c->bounds.width / 2;
-    c->bounds.p.posY = center.posY - c->bounds.height / 2;
+void setCircleCenter(Circle* c, Point newCenter) {
+    c->bounds.p.posX = newCenter.posX - c->bounds.width / 2;
+    c->bounds.p.posY = newCenter.posY - c->bounds.height / 2;
 }
 
-void setCircleTopLeft(Circle* c, Point p) {
-    c->bounds.p = p;
+void setCircleTopLeft(Circle* c, Point newTopLeft) {
+    c->bounds.p = newTopLeft;
 }
 
-void setCircleRadius(Circle* c, int radius) {
-    int d = radius * 2;
+void setCircleRadius(Circle* c, int newRadius) {
+    int d = newRadius * 2;
     c->bounds.width  = d;
     c->bounds.height = d;
 }
 
-void setCircleLineWidth(Circle* c, int lineWidth) {
-    c->bounds.lineWidth = lineWidth;
+void setCircleLineWidth(Circle* c, int newLineWidth) {
+    c->bounds.lineWidth = newLineWidth;
 }
